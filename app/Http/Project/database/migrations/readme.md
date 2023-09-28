@@ -2,8 +2,8 @@
 
 Make
 ```bash
-php artisan make:migration create_web_news_table --path=App\Http\Project\database\migrations\web
-php artisan make:migration create_web_news_locales_table --path=App\Http\Project\database\migrations\web
+php artisan make:migration create_web_news_table --path=app/Http/Project/database/migrations/web
+php artisan make:migration create_web_news_locales_table --path=app/Http/Project/database/migrations/web
 ```
 
 Migrate
