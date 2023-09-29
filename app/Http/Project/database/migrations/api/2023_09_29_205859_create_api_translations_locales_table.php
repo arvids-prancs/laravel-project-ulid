@@ -4,20 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApiTranslationsLocalesTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('api_translations_locales', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('foreign_id')->nullable();
-            $table->unsignedTinyInteger('lang_id')->nullable();
-            //            
+            $table->ulid('id')->primary();
+            $table->foreignUlid('foreign_id')->nullable()->constrained(table: 'api_translations');
+            $table->foreignUlid('lang_id')->nullable()->constrained(table: 'api_langs');
+            //
             $table->string('singular')->nullable();
             $table->string('plural')->nullable();
         });
@@ -25,11 +22,9 @@ class CreateApiTranslationsLocalesTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('api_translations_locales');
     }
-}
+};

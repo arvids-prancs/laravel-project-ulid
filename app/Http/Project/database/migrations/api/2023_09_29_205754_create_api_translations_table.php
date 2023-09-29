@@ -4,35 +4,30 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApiTranslationsTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('api_translations', function (Blueprint $table) {
-            $table->id();
+            $table->ulid('id')->primary();
             //
             $table->string('key', 50)->nullable();
             //
             $table->unsignedBigInteger('sequence')->nullable();
-            $table->boolean('publish')->default(1);
-            $table->integer('created_at_user')->nullable();
-            $table->integer('updated_at_user')->nullable();
+            $table->boolean('publish')->default(0);
+            $table->foreignUlid('created_at_user')->constrained(table: 'users');
+            $table->foreignUlid('updated_at_user')->constrained(table: 'users');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('api_translations');
     }
-}
+};

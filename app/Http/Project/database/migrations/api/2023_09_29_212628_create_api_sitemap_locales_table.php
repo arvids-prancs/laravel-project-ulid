@@ -4,19 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApiSitemapLocalesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('api_sitemap_locales', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('foreign_id')->nullable();
-            $table->unsignedTinyInteger('lang_id')->nullable();
+            $table->ulid('id')->primary();
+            $table->foreignUlid('foreign_id')->nullable()->constrained(table: 'api_sitemap');
+            $table->foreignUlid('lang_id')->nullable()->constrained(table: 'api_langs');
             //
             $table->string('title')->nullable();
             $table->text('description')->nullable();
@@ -27,11 +25,9 @@ class CreateApiSitemapLocalesTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('api_sitemap_locales');
     }
-}
+};

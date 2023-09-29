@@ -4,34 +4,30 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApiImagesLocalesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('api_images_locales', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('foreign_id')->nullable();
-            $table->unsignedTinyInteger('lang_id')->nullable();
+            $table->ulid('id')->primary();
+            $table->foreignUlid('foreign_id')->nullable()->constrained(table: 'api_images');
+            $table->foreignUlid('lang_id')->nullable()->constrained(table: 'api_langs');
             //
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->string('copyright')->nullable();
+            $table->string('source')->nullable();
             $table->string('link')->nullable();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('api_images_locales');
     }
-}
+};

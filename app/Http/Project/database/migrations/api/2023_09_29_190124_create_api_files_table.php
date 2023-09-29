@@ -4,39 +4,35 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApiFilesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('api_files', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('foreign_id')->nullable();
+            $table->ulid('id')->primary();
             //
+            $table->foreignUlid('foreign_id')->nullable()->constrained(table: 'api_files_storages');
             $table->string('path')->nullable();
-            $table->string('name')->nullable();
-            $table->string('extension')->nullable();
+            $table->string('folder')->nullable();
+            $table->string('extension', 10)->nullable();
             $table->unsignedBigInteger('size')->nullable();
             //
             $table->unsignedBigInteger('sequence')->nullable();
             $table->boolean('publish')->default(0);
-            $table->integer('created_at_user')->nullable();
-            $table->integer('updated_at_user')->nullable();
+            $table->foreignUlid('created_at_user')->constrained(table: 'users');
+            $table->foreignUlid('updated_at_user')->constrained(table: 'users');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('api_files');
     }
-}
+};

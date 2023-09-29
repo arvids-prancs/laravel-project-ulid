@@ -4,19 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApiSitemapTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('api_sitemap', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('foreign_id')->nullable();
-            $table->foreignId('image_id')->nullable();
+            $table->ulid('id')->primary();
+            $table->foreignUlid('image_id')->nullable()->constrained(table: 'api_images');
             //
             $table->string('api_component')->nullable();
             $table->string('api_controller')->nullable();
@@ -28,19 +24,20 @@ class CreateApiSitemapTable extends Migration
             //
             $table->unsignedBigInteger('sequence')->nullable();
             $table->boolean('publish')->default(0);
-            $table->integer('created_at_user')->nullable();
-            $table->integer('updated_at_user')->nullable();
+            $table->foreignUlid('created_at_user')->constrained(table: 'users');
+            $table->foreignUlid('updated_at_user')->constrained(table: 'users');
             $table->timestamps();
+        });
+        Schema::table('api_sitemap', function (Blueprint $table) {
+            $table->foreignUlid('foreign_id')->after('id')->nullable()->constrained(table: 'api_sitemap');
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('api_sitemap');
     }
-}
+};

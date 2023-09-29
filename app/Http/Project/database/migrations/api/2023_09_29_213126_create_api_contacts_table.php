@@ -4,19 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApiContactsTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('api_contacts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('image_id')->nullable();
-            $table->foreignId('image2_id')->nullable();
+            $table->ulid('id')->primary();
+            $table->foreignUlid('image_id')->nullable()->constrained(table: 'api_images');
             //
             $table->string('postcode')->nullable();
             $table->string('phone')->nullable();
@@ -32,19 +28,17 @@ class CreateApiContactsTable extends Migration
             //
             $table->unsignedBigInteger('sequence')->nullable();
             $table->boolean('publish')->default(0);
-            $table->integer('created_at_user')->nullable();
-            $table->integer('updated_at_user')->nullable();
+            $table->foreignUlid('created_at_user')->constrained(table: 'users');
+            $table->foreignUlid('updated_at_user')->constrained(table: 'users');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('api_contacts');
     }
-}
+};
