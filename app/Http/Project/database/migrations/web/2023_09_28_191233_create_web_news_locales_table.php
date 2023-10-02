@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('web_news_locales', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignUlid('foreign_id')->nullable();
-            $table->foreignUlid('lang_id')->nullable();
+            $table->foreignUlid('foreign_id')->nullable()->constrained(table: 'web_news');
+            $table->foreignUlid('lang_id')->nullable()->constrained(table: 'api_langs');
             //
             $table->string('title')->nullable();
             $table->text('description')->nullable();

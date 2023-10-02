@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('web_news', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignUlid('image_id')->nullable();
-            $table->foreignUlid('images_storage_id')->nullable();
-            $table->foreignUlid('files_storage_id')->nullable();
+            //
+            $table->foreignUlid('image_id')->nullable()->constrained(table: 'api_images');
+            $table->foreignUlid('images_storage_id')->nullable()->constrained(table: 'api_images_storages');
+            $table->foreignUlid('files_storage_id')->nullable()->constrained(table: 'api_files_storages');
             //
             $table->unsignedBigInteger('sequence')->nullable();
             $table->boolean('publish')->default(0);
-            $table->integer('created_at_user')->nullable();
-            $table->integer('updated_at_user')->nullable();
+            $table->foreignUlid('created_at_user')->constrained(table: 'users');
+            $table->foreignUlid('updated_at_user')->constrained(table: 'users');
             $table->timestamps();
         });
     }

@@ -1,0 +1,26 @@
+[
+    {
+        "short": "lv",
+        "name": "Latviešu",
+        "lang_code" : "lv-LV",
+        "default_lang": "1",
+        "sequence": "1",
+        "publish": "1"
+    },
+    {
+        "short": "en",
+        "name": "English",
+        "lang_code": "en-US",
+        "default_lang": "0",
+        "sequence": "2",
+        "publish": "1"
+    },
+    {
+        "short": "ru",
+        "name": "Pусский",
+        "lang_code": "ru-RU",
+        "default_lang": "0",
+        "sequence": "3",
+        "publish": "1"
+    }
+]
